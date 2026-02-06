@@ -3,487 +3,389 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Neon Archive — без фреймворков</title>
+  <title>Портфолио — Python Dev</title>
   <style>
     :root{
-      --bg1:#06070f;
+      --bg:#070814;
       --bg2:#0b1130;
       --card: rgba(255,255,255,.08);
       --border: rgba(255,255,255,.14);
       --text:#e9ecff;
       --muted: rgba(233,236,255,.72);
-      --accent1:#7c3aed;
-      --accent2:#22d3ee;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --radius: 18px;
-      --max: 1100px;
+      --a1:#22d3ee;
+      --a2:#7c3aed;
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --r: 18px;
+      --max: 980px;
     }
-
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{box-sizing:border-box}
     body{
       margin:0;
-      color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
       background:
-        radial-gradient(900px 500px at 12% 10%, rgba(34,211,238,.20), transparent 55%),
-        radial-gradient(800px 480px at 88% 18%, rgba(124,58,237,.22), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
+        radial-gradient(900px 500px at 12% 10%, rgba(34,211,238,.18), transparent 55%),
+        radial-gradient(800px 480px at 88% 18%, rgba(124,58,237,.20), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height:100vh;
       overflow-x:hidden;
     }
-
-    /* subtle animated noise-ish glow */
-    .glow {
-      position: fixed;
-      inset: -120px;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(34,211,238,.10), transparent 45%),
-        radial-gradient(circle at 70% 30%, rgba(124,58,237,.10), transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,.06), transparent 55%);
-      filter: blur(10px);
-      pointer-events:none;
-      opacity:.9;
-      animation: drift 10s ease-in-out infinite alternate;
-      z-index:-1;
-    }
-    @keyframes drift { from { transform: translate3d(-10px,-8px,0) scale(1.02); } to { transform: translate3d(12px,10px,0) scale(1.06); } }
-
-    a{ color: inherit; text-decoration: none; }
-    .wrap{ max-width: var(--max); margin: 0 auto; padding: 24px; }
-
-    /* top nav */
-    header{
-      position: sticky;
-      top: 0;
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    .top{
+      position: sticky; top:0; z-index:10;
       backdrop-filter: blur(10px);
-      background: rgba(6,7,15,.55);
+      background: rgba(7,8,20,.55);
       border-bottom: 1px solid rgba(255,255,255,.08);
-      z-index: 10;
     }
     .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding: 14px 24px;
-      max-width: var(--max);
-      margin: 0 auto;
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 24px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
     }
     .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 800;
-      letter-spacing: .4px;
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:.3px;
     }
     .dot{
-      width: 12px; height: 12px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent2), var(--accent1));
+      width:12px; height:12px; border-radius:999px;
+      background: linear-gradient(135deg, var(--a1), var(--a2));
       box-shadow: 0 0 18px rgba(34,211,238,.35), 0 0 26px rgba(124,58,237,.25);
     }
-    .navlinks{ display:flex; gap: 14px; flex-wrap: wrap; }
-    .navlinks a{
-      padding: 8px 10px;
-      border-radius: 12px;
-      color: var(--muted);
+    .links{display:flex; gap:10px; flex-wrap:wrap}
+    .links a{
+      padding:8px 10px;
+      border-radius:12px;
+      color:var(--muted);
     }
-    .navlinks a:hover{
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-    }
-
-    /* hero */
-    .hero{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
-      align-items: stretch;
-      margin-top: 18px;
-    }
-    @media (max-width: 860px){
-      .hero{ grid-template-columns: 1fr; }
-    }
-
+    .links a:hover{background:rgba(255,255,255,.06); color:var(--text)}
     .card{
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--r);
       box-shadow: var(--shadow);
-      overflow:hidden;
     }
 
-    .heroText{ padding: 22px; }
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:stretch;
     }
-    .kicker span{
-      width:8px; height:8px; border-radius:50%;
-      background: var(--accent2);
+    @media (max-width: 860px){ .hero{grid-template-columns:1fr} }
+
+    .heroText{padding:20px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size:13px;
+    }
+    .pill .pdot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--a1);
       box-shadow: 0 0 14px rgba(34,211,238,.45);
     }
-
     h1{
-      margin: 14px 0 10px;
-      font-size: clamp(28px, 3.6vw, 44px);
-      line-height: 1.05;
-      letter-spacing: -0.8px;
+      margin:12px 0 10px;
+      font-size: clamp(26px, 3.6vw, 40px);
+      line-height:1.06;
+      letter-spacing:-.7px;
     }
-    p{
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.55;
-    }
-
-    .actions{
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
+    p{margin:0 0 14px; color:var(--muted); line-height:1.55}
+    .btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
     .btn{
-      border: 0;
-      cursor:pointer;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-weight: 700;
-      letter-spacing: .2px;
+      border:0; cursor:pointer;
+      padding:10px 14px;
+      border-radius:14px;
+      font-weight:800;
+      display:inline-flex; align-items:center; gap:10px;
       transition: transform .08s ease, filter .2s ease, background .2s ease;
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
       user-select:none;
     }
-    .btn:active{ transform: translateY(1px); }
+    .btn:active{transform: translateY(1px)}
     .btnPrimary{
-      background: linear-gradient(135deg, var(--accent2), var(--accent1));
-      color: #07101a;
+      background: linear-gradient(135deg, var(--a1), var(--a2));
+      color:#07101a;
       box-shadow: 0 18px 35px rgba(34,211,238,.14), 0 14px 28px rgba(124,58,237,.12);
     }
     .btnGhost{
       background: rgba(255,255,255,.06);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .btn:hover{ filter: brightness(1.06); }
-
-    .heroMedia{
-      position: relative;
-      min-height: 320px;
-    }
-    .heroMedia img{
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-      filter: saturate(1.12) contrast(1.05);
-    }
-    .heroOverlay{
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.45) 85%);
-      pointer-events:none;
-    }
-    .heroCaption{
-      position:absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 14px;
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      align-items: end;
-    }
-    .chip{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.25);
-      backdrop-filter: blur(8px);
-      font-size: 12px;
-      color: rgba(233,236,255,.82);
-      white-space: nowrap;
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--text);
     }
 
-    /* gallery */
+    .heroSide{padding:18px; display:flex; flex-direction:column; gap:12px}
+    .stat{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    .stat b{letter-spacing:.2px}
+    .stat span{color:var(--muted); font-size:13px}
+
     .sectionTitle{
-      margin: 26px 0 12px;
-      display:flex;
-      align-items:end;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      margin:22px 0 10px;
+      display:flex; justify-content:space-between; align-items:end; gap:10px; flex-wrap:wrap;
     }
-    .sectionTitle h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing: .2px;
-    }
-    .sectionTitle .hint{
-      margin:0;
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .sectionTitle h2{margin:0; font-size:18px}
+    .sectionTitle .hint{margin:0; color:var(--muted); font-size:13px}
 
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
+      gap: 12px;
     }
-    .tile{
-      grid-column: span 4;
-      border-radius: var(--radius);
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
-      position: relative;
-      min-height: 240px;
+    .proj{
+      grid-column: span 6;
+      padding: 16px;
     }
-    .tile.big{ grid-column: span 8; min-height: 260px; }
-    @media (max-width: 980px){
-      .tile, .tile.big{ grid-column: span 12; }
-    }
-    .tile img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-      filter: saturate(1.12);
-      transform: scale(1.02);
-      transition: transform .35s ease;
-    }
-    .tile:hover img{ transform: scale(1.06); }
-    .tile .meta{
-      position:absolute;
-      left: 14px;
-      right: 14px;
-      bottom: 14px;
-      display:flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .tile .meta .title{
-      font-weight: 800;
-      letter-spacing: .2px;
-      text-shadow: 0 8px 22px rgba(0,0,0,.55);
-    }
-    .tile .meta .desc{
+    @media (max-width: 860px){ .proj{grid-column: span 12} }
+    .proj h3{margin:0 0 6px; font-size:16px}
+    .tags{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 12px}
+    .tag{
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
       color: rgba(233,236,255,.80);
-      font-size: 13px;
-      line-height: 1.35;
-      text-shadow: 0 8px 22px rgba(0,0,0,.55);
-      max-width: 60ch;
+    }
+    ul{margin:0; padding-left:18px; color: var(--muted); line-height:1.55}
+    .skills{
+      grid-column: span 12;
+      padding: 16px;
+      display:flex; flex-wrap:wrap; gap:10px;
     }
 
-    /* footer */
+    .contact{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 860px){ .contact{grid-template-columns:1fr} }
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline:none;
+      font: inherit;
+    }
+    textarea{resize: vertical}
+    label{display:block}
+    .lbl{font-size:13px; color:var(--muted); margin-bottom:6px}
+
     footer{
-      margin: 28px 0 12px;
+      margin: 22px 0 8px;
       color: rgba(233,236,255,.60);
       font-size: 13px;
-      display:flex;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items:center;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;
     }
-    .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+
+    /* tiny toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      color: rgba(233,236,255,.92);
+      box-shadow: 0 18px 45px rgba(0,0,0,.45);
+      z-index: 9999;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
-  <div class="glow"></div>
-
-  <header>
+  <div class="top">
     <div class="nav">
-      <div class="brand">
-        <div class="dot"></div>
-        <div>Neon Archive</div>
-      </div>
-      <nav class="navlinks">
-        <a href="#галерея">Галерея</a>
-        <a href="#миссия">Миссия</a>
-        <a href="#контакт">Контакт</a>
+      <div class="brand"><div class="dot"></div> <div>Портфолио</div></div>
+      <nav class="links">
+        <a href="#проекты">Проекты</a>
+        <a href="#навыки">Навыки</a>
+        <a href="#контакты">Контакты</a>
       </nav>
     </div>
-  </header>
+  </div>
 
   <main class="wrap">
     <section class="hero">
-      <div class="card heroText" id="миссия">
-        <div class="kicker"><span></span> чистый HTML + CSS, без фреймворков</div>
-        <h1>Космический техно-архив, где всё светится и выглядит умнее, чем оно есть</h1>
+      <div class="card heroText">
+        <div class="pill"><span class="pdot"></span> Python • бэкенд • боты • автоматизация</div>
+        <h1>Я делаю полезные штуки на Python, чтобы жизнь меньше бесила</h1>
         <p>
-          Мини-лендинг с адаптивом, карточками и сеткой, чтобы ты мог вставить свой контент,
-          не притаскивая с собой пол-Вселенной библиотек.
+          Примеры: Telegram-боты, небольшие API, парсинг данных, скрипты автоматизации.
+          Люблю, когда результат можно пощупать, а не только обсудить на созвоне.
         </p>
-        <div class="actions">
-          <button class="btn btnPrimary" id="btnScroll">
-            <span>🚀</span> Показать галерею
-          </button>
-          <button class="btn btnGhost" id="btnRandom">
-            <span>🎲</span> Случайная тема
-          </button>
+        <div class="btns">
+          <button class="btn btnPrimary" id="btnProjects">🚀 Мои проекты</button>
+          <button class="btn btnGhost" id="btnCopy">📋 Скопировать контакты</button>
         </div>
-        <p style="margin-top:14px; font-size:13px;">
-          Картинки грузятся с Unsplash. Если хочешь офлайн, скачай их и замени ссылки. Люди любят усложнять.
+        <p style="margin-top:12px; font-size:13px;">
+          Заменишь имя/описание/ссылки и будет выглядеть как будто ты всегда так и планировал.
         </p>
       </div>
 
-      <div class="card heroMedia" aria-label="Hero image">
-        <img id="heroImg"
-          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1400&q=80"
-          alt="Космос и звезды">
-        <div class="heroOverlay"></div>
-        <div class="heroCaption">
-          <div class="chip">📡 signal: stable</div>
-          <div class="chip">🛰️ archive id: NA-042</div>
-        </div>
-      </div>
+      <aside class="card heroSide">
+        <div class="stat"><b>Стек</b><span>Python, SQLite, FastAPI, Telegram Bot API</span></div>
+        <div class="stat"><b>Фокус</b><span>мини-проекты, которые работают</span></div>
+        <div class="stat"><b>Готовность</b><span>учусь быстро, делаю аккуратно</span></div>
+        <div class="stat"><b>Локация</b><span>удалённо / Европа</span></div>
+      </aside>
     </section>
 
-    <div class="sectionTitle" id="галерея">
-      <h2>Галерея: “неон, космос и город, который не спит”</h2>
-      <p class="hint">Наведи мышь. Да, это тоже “интерактив”.</p>
+    <div class="sectionTitle" id="проекты">
+      <h2>Проекты</h2>
+      <p class="hint">Один “основной” + один маленький, чтобы не раздувать.</p>
     </div>
 
     <section class="grid">
-      <article class="tile big">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80" alt="Ночной город">
-        <div class="meta">
-          <div class="title">Ночной мегаполис</div>
-          <div class="desc">Свет, стекло и ощущение, что завтра дедлайн, даже если ты ничего не обещал.</div>
+      <article class="card proj">
+        <h3>1) Telegram-бот “Habit Keeper”</h3>
+        <p>
+          Бот помогает вести привычки: добавление, чек-ин, статистика, напоминания.
+          Хранение в SQLite, расписание уведомлений.
+        </p>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">aiogram/pyTelegramBotAPI</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">scheduler</span>
         </div>
+        <ul>
+          <li>Команды: /add, /done, /stats, /remind</li>
+          <li>Еженедельный отчёт с прогрессом</li>
+          <li>Простая архитектура: handlers → services → storage</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px; color:var(--muted);">
+          Ссылка: добавь GitHub сюда → <b>github.com/username/habit-keeper</b>
+        </p>
       </article>
 
-      <article class="tile">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Земля из космоса">
-        <div class="meta">
-          <div class="title">Сигнал с орбиты</div>
-          <div class="desc">Когда хочешь тишины, но Вселенная шлёт уведомления.</div>
+      <article class="card proj">
+        <h3>2) Мини-API “Notes API”</h3>
+        <p>
+          Небольшой REST API для заметок: CRUD, поиск, теги.
+          Подходит как база для приложения/бота.
+        </p>
+        <div class="tags">
+          <span class="tag">FastAPI</span>
+          <span class="tag">Pydantic</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">OpenAPI</span>
         </div>
+        <ul>
+          <li>Эндпоинты: /notes, /notes/{id}, /search</li>
+          <li>Валидация входных данных</li>
+          <li>Swagger-документация из коробки</li>
+        </ul>
+        <p style="margin-top:12px; font-size:13px; color:var(--muted);">
+          Ссылка: добавь GitHub сюда → <b>github.com/username/notes-api</b>
+        </p>
       </article>
 
-      <article class="tile">
-        <img src="https://images.unsplash.com/photo-1520975958225-9d1e5d2f5f96?auto=format&fit=crop&w=1200&q=80" alt="Неоновые огни">
-        <div class="meta">
-          <div class="title">Неоновый коридор</div>
-          <div class="desc">Идеальное место, чтобы пафосно молчать и делать вид, что ты кибердетектив.</div>
+      <div class="sectionTitle" id="навыки" style="grid-column: span 12; margin-top:6px;">
+        <h2>Навыки</h2>
+        <p class="hint">Пиши то, что реально умеешь, иначе жизнь сама тебя подправит.</p>
+      </div>
+
+      <section class="card skills" style="grid-column: span 12;">
+        <span class="tag">Python</span>
+        <span class="tag">AsyncIO</span>
+        <span class="tag">SQL (SQLite/PostgreSQL)</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Telegram Bots</span>
+        <span class="tag">Парсинг данных</span>
+        <span class="tag">Git</span>
+        <span class="tag">Linux basics</span>
+      </section>
+
+      <div class="sectionTitle" id="контакты" style="grid-column: span 12; margin-top:10px;">
+        <h2>Контакты</h2>
+        <p class="hint">Форма “для вида” без бэкенда, но красиво.</p>
+      </div>
+
+      <section class="card contact" style="grid-column: span 12;">
+        <div>
+          <p style="margin:0 0 10px;">
+            <b>Почта:</b> <span id="email">you@example.com</span><br>
+            <b>GitHub:</b> <span id="gh">github.com/username</span><br>
+            <b>Telegram:</b> <span id="tg">@yourhandle</span>
+          </p>
+          <button class="btn btnPrimary" id="btnEmail">✉️ Написать</button>
+          <button class="btn btnGhost" id="btnCopy2">📋 Копировать</button>
         </div>
-      </article>
 
-      <article class="tile">
-        <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1200&q=80" alt="Туманность">
-        <div class="meta">
-          <div class="title">Туманность</div>
-          <div class="desc">Красиво, опасно, непонятно. Как групповой проект.</div>
-        </div>
-      </article>
-
-      <article class="tile big">
-        <img src="https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=1600&q=80" alt="Технологии и схема">
-        <div class="meta">
-          <div class="title">Схема устройства реальности</div>
-          <div class="desc">Похоже на серьёзную инженерию, пока не заглянешь в документацию.</div>
-        </div>
-      </article>
-    </section>
-
-    <div class="sectionTitle" id="контакт">
-      <h2>Контакт</h2>
-      <p class="hint">Форма без бэкенда. Потому что магии не существует.</p>
-    </div>
-
-    <section class="card" style="padding:18px;">
-      <form onsubmit="event.preventDefault(); toast('✅ Сообщение “отправлено” (в твоё воображение).');">
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <form onsubmit="event.preventDefault(); toast('✅ Отправлено (в параллельную реальность).'); this.reset();">
           <label>
-            <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Имя</div>
-            <input required placeholder="мономразь"
-              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none;">
+            <div class="lbl">Имя</div>
+            <input required placeholder="Твоё имя" />
           </label>
-          <label>
-            <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Тема</div>
-            <input required placeholder="что-нибудь загадочное"
-              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none;">
+          <label style="margin-top:10px;">
+            <div class="lbl">Сообщение</div>
+            <textarea required rows="4" placeholder="Опиши задачу: бот, API, парсер, автоматизация..."></textarea>
           </label>
-        </div>
-
-        <label style="display:block; margin-top:12px;">
-          <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Сообщение</div>
-          <textarea required rows="4" placeholder="Напиши что-нибудь, что будущий ты не будет ненавидеть."
-            style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none; resize: vertical;"></textarea>
-        </label>
-
-        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; align-items:center;">
-          <button class="btn btnPrimary" type="submit"><span>📨</span> Отправить</button>
-          <span class="pill">🔒 Никаких трекеров. Только твоя совесть.</span>
-        </div>
-      </form>
+          <div style="margin-top:10px;">
+            <button class="btn btnPrimary" type="submit">📨 Отправить</button>
+          </div>
+        </form>
+      </section>
     </section>
 
     <footer>
-      <div>© Neon Archive. Все права на пафос защищены.</div>
-      <div class="pill">Сделано на чистом HTML/CSS/JS ✨</div>
+      <div>© <span id="year"></span> • Сделано на чистом HTML/CSS/JS</div>
+      <div class="pill">🐍 Python inside (в смысле в голове)</div>
     </footer>
   </main>
 
   <script>
-    const heroImg = document.getElementById('heroImg');
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    const themes = [
-      {
-        name: "Космос",
-        hero: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1400&q=80",
-      },
-      {
-        name: "Неон-город",
-        hero: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
-      },
-      {
-        name: "Туманность",
-        hero: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1400&q=80",
-      }
-    ];
-
-    document.getElementById('btnScroll').addEventListener('click', () => {
-      document.getElementById('галерея').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('btnProjects').addEventListener('click', () => {
+      document.getElementById('проекты').scrollIntoView({behavior:'smooth', block:'start'});
     });
 
-    document.getElementById('btnRandom').addEventListener('click', () => {
-      const t = themes[Math.floor(Math.random() * themes.length)];
-      heroImg.src = t.hero;
-      toast("🎛️ Тема: " + t.name);
+    function copyContacts(){
+      const text =
+        "Email: " + document.getElementById('email').textContent + "\\n" +
+        "GitHub: " + document.getElementById('gh').textContent + "\\n" +
+        "Telegram: " + document.getElementById('tg').textContent;
+      navigator.clipboard?.writeText(text).then(
+        () => toast("📋 Контакты скопированы"),
+        () => toast("😵 Не вышло скопировать. Браузер вредничает.")
+      );
+    }
+
+    document.getElementById('btnCopy').addEventListener('click', copyContacts);
+    document.getElementById('btnCopy2').addEventListener('click', copyContacts);
+
+    document.getElementById('btnEmail').addEventListener('click', () => {
+      const email = document.getElementById('email').textContent.trim();
+      const subject = encodeURIComponent("Связаться по проекту");
+      window.location.href = `mailto:${email}?subject=${subject}`;
     });
 
     function toast(text){
       const el = document.createElement('div');
+      el.className = 'toast';
       el.textContent = text;
-      el.style.position = 'fixed';
-      el.style.left = '50%';
-      el.style.bottom = '18px';
-      el.style.transform = 'translateX(-50%)';
-      el.style.padding = '10px 12px';
-      el.style.borderRadius = '14px';
-      el.style.background = 'rgba(0,0,0,.55)';
-      el.style.border = '1px solid rgba(255,255,255,.14)';
-      el.style.backdropFilter = 'blur(10px)';
-      el.style.color = 'rgba(233,236,255,.92)';
-      el.style.boxShadow = '0 18px 45px rgba(0,0,0,.45)';
-      el.style.zIndex = 9999;
-      el.style.fontSize = '13px';
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 1600);
     }
