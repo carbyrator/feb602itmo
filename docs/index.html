@@ -1,1 +1,492 @@
-<html> Hello, world! </html>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neon Archive — без фреймворков</title>
+  <style>
+    :root{
+      --bg1:#06070f;
+      --bg2:#0b1130;
+      --card: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.14);
+      --text:#e9ecff;
+      --muted: rgba(233,236,255,.72);
+      --accent1:#7c3aed;
+      --accent2:#22d3ee;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1100px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(900px 500px at 12% 10%, rgba(34,211,238,.20), transparent 55%),
+        radial-gradient(800px 480px at 88% 18%, rgba(124,58,237,.22), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* subtle animated noise-ish glow */
+    .glow {
+      position: fixed;
+      inset: -120px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(34,211,238,.10), transparent 45%),
+        radial-gradient(circle at 70% 30%, rgba(124,58,237,.10), transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,.06), transparent 55%);
+      filter: blur(10px);
+      pointer-events:none;
+      opacity:.9;
+      animation: drift 10s ease-in-out infinite alternate;
+      z-index:-1;
+    }
+    @keyframes drift { from { transform: translate3d(-10px,-8px,0) scale(1.02); } to { transform: translate3d(12px,10px,0) scale(1.06); } }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 24px; }
+
+    /* top nav */
+    header{
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      background: rgba(6,7,15,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      z-index: 10;
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding: 14px 24px;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 800;
+      letter-spacing: .4px;
+    }
+    .dot{
+      width: 12px; height: 12px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent1));
+      box-shadow: 0 0 18px rgba(34,211,238,.35), 0 0 26px rgba(124,58,237,.25);
+    }
+    .navlinks{ display:flex; gap: 14px; flex-wrap: wrap; }
+    .navlinks a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      color: var(--muted);
+    }
+    .navlinks a:hover{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+
+    /* hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+    @media (max-width: 860px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .heroText{ padding: 22px; }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+    .kicker span{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--accent2);
+      box-shadow: 0 0 14px rgba(34,211,238,.45);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 3.6vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+    }
+    p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .actions{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .btn{
+      border: 0;
+      cursor:pointer;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      transition: transform .08s ease, filter .2s ease, background .2s ease;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btnPrimary{
+      background: linear-gradient(135deg, var(--accent2), var(--accent1));
+      color: #07101a;
+      box-shadow: 0 18px 35px rgba(34,211,238,.14), 0 14px 28px rgba(124,58,237,.12);
+    }
+    .btnGhost{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .btn:hover{ filter: brightness(1.06); }
+
+    .heroMedia{
+      position: relative;
+      min-height: 320px;
+    }
+    .heroMedia img{
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      filter: saturate(1.12) contrast(1.05);
+    }
+    .heroOverlay{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.45) 85%);
+      pointer-events:none;
+    }
+    .heroCaption{
+      position:absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      align-items: end;
+    }
+    .chip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      backdrop-filter: blur(8px);
+      font-size: 12px;
+      color: rgba(233,236,255,.82);
+      white-space: nowrap;
+    }
+
+    /* gallery */
+    .sectionTitle{
+      margin: 26px 0 12px;
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .sectionTitle .hint{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .tile{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      position: relative;
+      min-height: 240px;
+    }
+    .tile.big{ grid-column: span 8; min-height: 260px; }
+    @media (max-width: 980px){
+      .tile, .tile.big{ grid-column: span 12; }
+    }
+    .tile img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      filter: saturate(1.12);
+      transform: scale(1.02);
+      transition: transform .35s ease;
+    }
+    .tile:hover img{ transform: scale(1.06); }
+    .tile .meta{
+      position:absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tile .meta .title{
+      font-weight: 800;
+      letter-spacing: .2px;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+    }
+    .tile .meta .desc{
+      color: rgba(233,236,255,.80);
+      font-size: 13px;
+      line-height: 1.35;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+      max-width: 60ch;
+    }
+
+    /* footer */
+    footer{
+      margin: 28px 0 12px;
+      color: rgba(233,236,255,.60);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow"></div>
+
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>Neon Archive</div>
+      </div>
+      <nav class="navlinks">
+        <a href="#галерея">Галерея</a>
+        <a href="#миссия">Миссия</a>
+        <a href="#контакт">Контакт</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="card heroText" id="миссия">
+        <div class="kicker"><span></span> чистый HTML + CSS, без фреймворков</div>
+        <h1>Космический техно-архив, где всё светится и выглядит умнее, чем оно есть</h1>
+        <p>
+          Мини-лендинг с адаптивом, карточками и сеткой, чтобы ты мог вставить свой контент,
+          не притаскивая с собой пол-Вселенной библиотек.
+        </p>
+        <div class="actions">
+          <button class="btn btnPrimary" id="btnScroll">
+            <span>🚀</span> Показать галерею
+          </button>
+          <button class="btn btnGhost" id="btnRandom">
+            <span>🎲</span> Случайная тема
+          </button>
+        </div>
+        <p style="margin-top:14px; font-size:13px;">
+          Картинки грузятся с Unsplash. Если хочешь офлайн, скачай их и замени ссылки. Люди любят усложнять.
+        </p>
+      </div>
+
+      <div class="card heroMedia" aria-label="Hero image">
+        <img id="heroImg"
+          src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1400&q=80"
+          alt="Космос и звезды">
+        <div class="heroOverlay"></div>
+        <div class="heroCaption">
+          <div class="chip">📡 signal: stable</div>
+          <div class="chip">🛰️ archive id: NA-042</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="sectionTitle" id="галерея">
+      <h2>Галерея: “неон, космос и город, который не спит”</h2>
+      <p class="hint">Наведи мышь. Да, это тоже “интерактив”.</p>
+    </div>
+
+    <section class="grid">
+      <article class="tile big">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80" alt="Ночной город">
+        <div class="meta">
+          <div class="title">Ночной мегаполис</div>
+          <div class="desc">Свет, стекло и ощущение, что завтра дедлайн, даже если ты ничего не обещал.</div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Земля из космоса">
+        <div class="meta">
+          <div class="title">Сигнал с орбиты</div>
+          <div class="desc">Когда хочешь тишины, но Вселенная шлёт уведомления.</div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <img src="https://images.unsplash.com/photo-1520975958225-9d1e5d2f5f96?auto=format&fit=crop&w=1200&q=80" alt="Неоновые огни">
+        <div class="meta">
+          <div class="title">Неоновый коридор</div>
+          <div class="desc">Идеальное место, чтобы пафосно молчать и делать вид, что ты кибердетектив.</div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1200&q=80" alt="Туманность">
+        <div class="meta">
+          <div class="title">Туманность</div>
+          <div class="desc">Красиво, опасно, непонятно. Как групповой проект.</div>
+        </div>
+      </article>
+
+      <article class="tile big">
+        <img src="https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=1600&q=80" alt="Технологии и схема">
+        <div class="meta">
+          <div class="title">Схема устройства реальности</div>
+          <div class="desc">Похоже на серьёзную инженерию, пока не заглянешь в документацию.</div>
+        </div>
+      </article>
+    </section>
+
+    <div class="sectionTitle" id="контакт">
+      <h2>Контакт</h2>
+      <p class="hint">Форма без бэкенда. Потому что магии не существует.</p>
+    </div>
+
+    <section class="card" style="padding:18px;">
+      <form onsubmit="event.preventDefault(); toast('✅ Сообщение “отправлено” (в твоё воображение).');">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <label>
+            <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Имя</div>
+            <input required placeholder="мономразь"
+              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none;">
+          </label>
+          <label>
+            <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Тема</div>
+            <input required placeholder="что-нибудь загадочное"
+              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none;">
+          </label>
+        </div>
+
+        <label style="display:block; margin-top:12px;">
+          <div style="font-size:13px; color: var(--muted); margin-bottom:6px;">Сообщение</div>
+          <textarea required rows="4" placeholder="Напиши что-нибудь, что будущий ты не будет ненавидеть."
+            style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.25); color: var(--text); outline:none; resize: vertical;"></textarea>
+        </label>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; align-items:center;">
+          <button class="btn btnPrimary" type="submit"><span>📨</span> Отправить</button>
+          <span class="pill">🔒 Никаких трекеров. Только твоя совесть.</span>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <div>© Neon Archive. Все права на пафос защищены.</div>
+      <div class="pill">Сделано на чистом HTML/CSS/JS ✨</div>
+    </footer>
+  </main>
+
+  <script>
+    const heroImg = document.getElementById('heroImg');
+
+    const themes = [
+      {
+        name: "Космос",
+        hero: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        name: "Неон-город",
+        hero: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+      },
+      {
+        name: "Туманность",
+        hero: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?auto=format&fit=crop&w=1400&q=80",
+      }
+    ];
+
+    document.getElementById('btnScroll').addEventListener('click', () => {
+      document.getElementById('галерея').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.getElementById('btnRandom').addEventListener('click', () => {
+      const t = themes[Math.floor(Math.random() * themes.length)];
+      heroImg.src = t.hero;
+      toast("🎛️ Тема: " + t.name);
+    });
+
+    function toast(text){
+      const el = document.createElement('div');
+      el.textContent = text;
+      el.style.position = 'fixed';
+      el.style.left = '50%';
+      el.style.bottom = '18px';
+      el.style.transform = 'translateX(-50%)';
+      el.style.padding = '10px 12px';
+      el.style.borderRadius = '14px';
+      el.style.background = 'rgba(0,0,0,.55)';
+      el.style.border = '1px solid rgba(255,255,255,.14)';
+      el.style.backdropFilter = 'blur(10px)';
+      el.style.color = 'rgba(233,236,255,.92)';
+      el.style.boxShadow = '0 18px 45px rgba(0,0,0,.45)';
+      el.style.zIndex = 9999;
+      el.style.fontSize = '13px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1600);
+    }
+  </script>
+</body>
+</html>
